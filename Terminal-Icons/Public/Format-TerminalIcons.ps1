@@ -35,6 +35,10 @@ function Format-TerminalIcons {
         $escape      = [char]27
         $colorReset  = "${escape}[0m"
         $displayInfo = Resolve-Icon $FileInfo
-        "$($displayInfo.Color)$($displayInfo.Icon)  $($FileInfo.Name)$colorReset"
+        $targetInfo  = ''
+        if ($FileInfo.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
+            $targetInfo = ' -> ' + $FileInfo.Target
+        }
+        "$($displayInfo.Color)$($displayInfo.Icon)  $($FileInfo.Name)$targetInfo$colorReset"
     }
 }
